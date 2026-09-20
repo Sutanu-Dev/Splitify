@@ -1,0 +1,10 @@
+<template>
+    <template lwc:if={showToast}>
+        <div class="toast" data-variant={variant}>
+            <span>
+                <span class="material-symbols-outlined">{icon}</span>
+                <span>{toastMessage}</span>
+            </span>
+        </div>
+    </template>
+</template>

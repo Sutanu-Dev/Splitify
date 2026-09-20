@@ -1,0 +1,132 @@
+<template>
+    <c-custom-toast></c-custom-toast>
+
+    <div class="container">
+        <template lwc:if={isLoading}>
+            <span class="loader"></span>
+        </template>
+        <div class="login-container" onclick={showLoginPage}>
+            <div class="login">
+                <div class="heading">
+                    <h1>Log In</h1>
+                    <template lwc:if={showLoginErrorMessage}>
+                        <div class="login-error-message">Wrong Email Or Password!</div>
+                    </template>
+                </div>
+                <form onsubmit={handleLogin} action="">
+                    <div class="field">
+                        <input type="email" name="email" id="login-email" autocomplete="on" required>
+                        <label for="login-email">Email</label>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="password" id="login-password" required>
+                        <label for="login-password">Password</label>
+                    </div>
+                    <button type="submit">Log In</button>
+                    <div class="forgot-password" onclick={handleForgotPassword}>Forgot Password?</div>
+                </form>
+            </div>
+            <div class="forgot-password-container">
+                <div class="heading">
+                    <h1>Reset Password</h1>
+                    <template lwc:if={showForgotPasswordErrorForEmail}>
+                        <div class="forgot-password-error-message">Email doesn't exist!</div>
+                    </template>
+                    <template lwc:if={showForgotPasswordErrorForCode}>
+                        <div class="forgot-password-error-message">Code doesn't match!</div>
+                    </template>
+                    <template lwc:if={showNewPasswordError}>
+                        <div class="forgot-password-error-message">Password doesn't match!</div>
+                    </template>
+                </div>
+                <form class="forgot-password-email" onsubmit={forgotPasswordEmailHandler} action="">
+                    <div class="forgot-password-heading">Enter the email address associated with your account :</div>
+                    <div class="field">
+                        <input type="email" name="email" id="forgot-password-email" autocomplete="on" required>
+                        <label for="forgot-password-email">Email</label>
+                    </div>
+                    <div class="button-container">
+                        <button type="reset" onclick={goBackToLoginComponent}>Back</button>
+                        <button type="submit">Send Code</button>
+                    </div>
+                </form>
+                <form class="forgot-password-code-form" onsubmit={forgotPasswordCodeHandler} action="">
+                    <div class="field">
+                        <input type="number" name="forgotPasswordCode" id="forgot-password-code" autocomplete="off" required>
+                        <label for="forgot-password-code">Code</label>
+                    </div>
+                    <div class="button-container">
+                        <button type="reset" onclick={goBackToForgotPasswordEmail}>Back</button>
+                        <button type="submit">Verify</button>
+                    </div>
+                </form>
+                <form class="new-password-form" onsubmit={newPasswordHandler} action="">
+                    <div class="field">
+                        <input type="password" name="newPassword" id="new-password" autocomplete="off" required>
+                        <label for="new-password">New Password</label>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="newConfirmPassword" id="new-password-confirm" autocomplete="off" required>
+                        <label for="new-password-confirm">New Password</label>
+                    </div>
+                    <div class="button-container">
+                        <button type="reset" onclick={goBackToLoginComponent}>Cancel</button>
+                        <button type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="signup-container" onclick={showSignUpPage}>
+            <div class="signup-helper">
+
+                <!-- sign up component -->
+                <div class="signup">
+                    <div class="heading">
+                        <h1>Sign Up</h1>
+                        <template lwc:if={showSignUpErrorMessage}>
+                            <div class="signup-error-message">Password Doesn't Match!</div>
+                        </template>
+                        <template lwc:if={showSignUpErrorForEmail}>
+                            <div class="signup-error-message">Email already exist!</div>
+                        </template>
+                    </div>
+                    <form class="sign-up-form" onsubmit={handleSignUp} action="">
+                        <div class="field">
+                            <input type="text" name="name" id="name" required>
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="field">
+                            <input type="email" name="email" id="email" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="field">
+                            <input type="password" name="password" id="password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="field">
+                            <input type="password" name="confirmPassword" id="confirm-password" required>
+                            <label for="confirm-password">Confirm Password</label>
+                        </div>
+                        <button type="submit">Sign Up</button>
+                    </form>
+                </div>
+                <!-- email verification component -->
+                <!-- <div class="verification">
+                    <div class="heading">
+                        <h1>Email Verification</h1>
+                        <template lwc:if={showVerificationErrorMessage}>
+                            <div class="signup-verification-error-message">Code Doesn't Match!</div>
+                        </template>
+                    </div>
+                    <form onsubmit={handleEmailVerification} action="">
+                        <div class="field">
+                            <input type="number" name="verificationCode" id="verification-code" required>
+                            <label for="verification-code">Code</label>
+                        </div>
+                        <button type="submit">Verify</button>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</template>

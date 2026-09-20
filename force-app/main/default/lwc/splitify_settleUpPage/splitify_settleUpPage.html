@@ -1,0 +1,102 @@
+<template>
+    
+    <div class="background">
+        <div class="color-spread-right"></div>
+        <div class="color-spread-left"></div>
+    </div>
+    <template lwc:if={dollarLoader}>
+        <span class="doller-loader"></span>
+    </template>
+    <template lwc:if={transectionExist}>
+        <div class="settlement-container">
+            
+            <div class="settlement-header">
+                <button onclick={handleMoreDetails}>{buttonTitle}</button>
+            </div>
+            <template lwc:if={personal}>
+                <template lwc:if={isLoading}>
+                    <div class="loader-container">
+                        <div class="loader"></div>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <div class="personal-info" lwc:if={personalRecordExist}>
+                        <ul class="list-container">
+                            <template for:each={personalReceive} for:item="receive">
+                                <li key={receive.id} class="personal-card" onclick={getPaymentInformation} data-id={receive.id} data-payerid={receive.payerId} data-payername={receive.payerName} data-receiverid={receive.receiverId} data-receivername={receive.receiverName} data-amount={receive.amount}>
+                                    <div class="propic">
+                                        <picture>
+                                            <source srcset={userProPic}>
+                                            <img src={defProPic} alt="">
+                                        </picture>
+                                    </div>
+                                    <span class="details">You get back <strong>{receive.amount}</strong> from {receive.payerName}</span>
+                                </li>
+                            </template>
+                            <template for:each={personalPay} for:item="pay">
+                                <li key={pay.id} class="personal-card" onclick={getPaymentInformation} data-id={pay.id} data-payerid={pay.payerId} data-payername={pay.payerName} data-receiverid={pay.receiverId} data-receivername={pay.receiverName} data-amount={pay.amount}>
+                                    <div class="propic">
+                                        <picture>
+                                            <source srcset={userProPic}>
+                                            <img src={defProPic} alt="">
+                                        </picture>
+                                    </div>
+                                    <span class="details">You need to pay <strong>{pay.amount}</strong> to {pay.receiverName}</span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                    <div class="no-personal-record-message" lwc:else>
+                        There is no transactions for you.
+                    </div>
+                </template>
+            </template>
+            <template lwc:else>
+                <div class="all-info">
+                    <div class="settle-up-wrapper">
+                        <ul class="list-container">
+                            <template for:each={settleUpList} for:item="settleup">
+                                <li key={settleup.id} class="settle-up-card" onclick={getPaymentInformation} data-id={settleup.id} data-payerid={settleup.payerId} data-payername={settleup.payerName} data-receiverid={settleup.receiverId} data-receivername={settleup.receiverName} data-amount={settleup.amount}>
+                                    <span class="material-symbols-outlined">payments</span>
+                                    <span class="details">{settleup.receiverName} gets back <strong>{settleup.amount}</strong> from {settleup.payerName}</span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                    <div lwc:if={paidTransectionListExist} class="paid-up-wrapper">
+                        <ul class="list-container">
+                            <template for:each={paidTransectionList} for:item="paid">
+                                <li key={paid.id} class="paid-up-card">
+                                    <span class="material-symbols-outlined">payments</span>
+                                    <span class="details">{paid.payerName} paid <strong>{paid.amount}</strong> to {paid.receiverName}</span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </template>
+
+            
+        </div>
+    </template>
+    <template lwc:else>
+        <div class="settle-up-message">
+            <div>This Group Is Settled Up <span class="material-symbols-outlined">check</span> </div>
+            <button onclick={showTransectionPage}>View Transections</button>
+        </div>
+    </template>
+
+
+    <dialog class="modal">
+        <div class="modal-wrapper">
+            <div class="pay-tran-card">
+                <div class="warning material-symbols-outlined">emergency_home</div>
+                <h3>Paying <strong>{modalAmount}</strong> to {modalPerson}.</h3>
+                <div class="button-group">
+                    <button class="cancel" onclick={hideModal}>Cancel</button>
+                    <button class="confirm" onclick={confirmPayment}>Confirm</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+</template>

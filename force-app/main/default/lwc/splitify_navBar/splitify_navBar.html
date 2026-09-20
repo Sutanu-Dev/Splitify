@@ -1,0 +1,59 @@
+<template>
+    <template lwc:if={showNavBarComponent}>
+        <template lwc:if={showNavBar}>
+            <div class="nav-bar">
+                <template if:false={showCreateGroupButton}>
+                    <div class="menu">
+                        <button class="back-btn material-symbols-outlined" onclick={navigateToPreviousPage}>arrow_back</button>
+                    </div>
+                </template>
+                <div class="btn-section">
+                    <template lwc:if={showCreateGroupButton}>
+                        <button class="create-group-btn" data-id="group" onclick={invokeOtherCmpntFunction}><span class="material-symbols-outlined">group_add</span>New Group</button>
+                    </template>
+                </div>
+                <div class="profile-section">
+                    <details class="user-profile-setting">
+                        <summary>
+                            <div class="profile-picture">
+                                <picture>
+                                    <source srcset={profilePicture}>
+                                    <img src={defProPic} alt="">
+                                </picture>
+                            </div>
+                        </summary>
+                        <ul>
+                            <li>
+                                <template lwc:if={user}>
+                                    <div>{user.Name}</div>
+                                    <div>{user.Email__c}</div>
+                                </template>
+                            </li>
+                            <li><button onclick={navigateToUserProfile}>Manage Account</button></li>
+                            <li><button onclick={showSignOutWarningPopup}>Sign Out</button></li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+        </template>
+        <template lwc:else>
+            <div class="button-section">
+                <button class="back-btn material-symbols-outlined" onclick={navigateToPreviousPage}>arrow_back</button>
+                <template lwc:if={editButton}><button class="edit-btn material-symbols-outlined" data-id="profile" onclick={invokeOtherCmpntFunction}>edit</button></template>
+            </div>
+        </template>
+        <dialog class="modal">
+            <div class="modal-wrapper">
+                <div class="sign-out-card">
+                    <div class="warning material-symbols-outlined">logout</div>
+                    <h1>Sign Out</h1>
+                    <h3>Are you sure you want to sign out ?</h3>
+                    <div class="button-group">
+                        <button class="cancel" onclick={hideSignOutWarningPopup}>Cancel</button>
+                        <button class="confirm" onclick={navigateToLoginPage}>Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+    </template>
+</template>

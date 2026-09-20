@@ -1,0 +1,19 @@
+{
+    "name": "Splitify",
+    "short_name": "Splitify",
+    "start_url": "https://splitify-dev-ed.develop.my.site.com/production/",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "id":"splitify1",
+    "orientation":"portrait",
+    "icons": [
+        {
+        "src": "/sfsites/c/resource/manifesticon",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+        }
+    ],
+    "description": "Manage share group expenses with ease."
+}

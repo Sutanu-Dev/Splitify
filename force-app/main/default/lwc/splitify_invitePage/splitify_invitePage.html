@@ -1,0 +1,11 @@
+<template>
+    <template lwc:if={isLoading}>
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div>Adding you to group...</div> 
+        </div>
+    </template>
+    <template lwc:else>
+        <div>{showError}</div>
+    </template>
+</template>

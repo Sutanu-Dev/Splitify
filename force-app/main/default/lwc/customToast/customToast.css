@@ -1,0 +1,35 @@
+.toast {
+    position: fixed;
+    top: 2rem;
+    right: 0;
+    left: 0;
+    width: min(20rem, 90%);
+    z-index: 1000;
+    margin-inline: auto;
+    opacity: 0.9;
+    border-radius: 10px;
+    padding: 0.5rem;
+    color: #e4e4e4;
+}
+
+.toast > span {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+
+    svg {
+        fill: #f2efef;
+    }
+}
+.toast span span {
+    display: flex;
+    align-items: center;
+}
+
+div[data-variant="success"]{
+    background: green;
+}
+
+div[data-variant="error"]{
+    background-color: red;
+}

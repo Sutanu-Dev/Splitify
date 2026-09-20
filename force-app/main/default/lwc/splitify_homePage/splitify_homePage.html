@@ -1,0 +1,72 @@
+<template>
+<div class="home-page-background">
+    <div class="color-spread-right"></div>
+</div>
+<div style="display: none; position: fixed; bottom: 0; width: 100%; background: #0070d2; color: white; padding: 16px; justify-content: space-between; align-items: center; z-index: 1000;">
+    <span>Install our app for a better experience!</span>
+    <button class="install-btn" style="background: white; color: #0070d2; padding: 8px 16px; border: none; border-radius: 8px;">Install</button>
+  </div>
+    <!-- home page group list -->
+     <div class="group-container">
+        <div class="group-list">
+            <ul>
+                <template lwc:if={isLoading}>
+                    <div class="loader-container">
+                        <div class="loader"></div>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <template lwc:if={groupsExist} for:each={allGroups} for:item="group">
+                        <li key={group.Id} class="group-list-item" data-groupid={group.Group__c} onclick={navigateToGroupDetails}>
+                            <div class="group-picture">
+                                <picture>
+                                    <source srcset={group.Group__r.Group_Picture__c}>
+                                    <img src={defGrpPic} alt="" loading="lazy">
+                                </picture>
+                            </div>
+                            <div class="group-details">
+                                <span class="group-name">{group.Group__r.Name}</span>
+                                <span class="group-description">{group.Group__r.Total_Members__c} Members</span>
+                            </div>
+                            <div class="group-opening-icon material-symbols-outlined">arrow_forward_ios</div>
+                        </li>
+                    </template>
+                    <template lwc:else>
+                        <div style="display: flex; justify-content: center; align-items: center; margin: 50px 0; flex-direction: column; text-align: center;"><div style="background-image: url(assets/img/desert.svg) !important; background-size: cover; background-position: center; height: 150px; width: 100%; max-width: 600px; min-width: 300px;"></div>
+                            <h1 class="slds-text-heading_medium slds-p-bottom_x-small">Create or join a group to get started!</h1>
+                        </div>
+                        <!-- <div class="no-group-message-container">
+                            <div class="no-group-icon material-symbols-outlined">groups</div>
+                            <div class="no-group-message">Create or join a group to get started!</div>
+                        </div> -->
+                    </template>
+                </template>
+            </ul>
+        </div>
+     </div>
+
+     <!-- create group form -->
+<div class="create-group-container">
+    <template lwc:if={dollarLoader}>
+        <span class="dollar-loader"></span>
+    </template>
+    <div class="create-group">
+        <div class="header">
+            <button class="back-btn material-symbols-outlined" onclick={closeCreateGroupForm}>close</button>
+        </div>
+        <div class="input-container">
+            <input type="text" name="groupname" placeholder="Enter Group Name" value="" onkeydown={changeBorder}>
+            <div>
+                <span>Currency : </span> 
+                <span>
+                    <select name="currency" title="Currency">
+                        <option value=INR>INR</option>
+                        <option value=USD>USD</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <button class="create-group-btn" onclick={createGroup}>Create Group</button>        
+    </div>
+</div>
+</template>

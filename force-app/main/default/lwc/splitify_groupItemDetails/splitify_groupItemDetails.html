@@ -1,0 +1,147 @@
+<template>
+    <div class="background">
+        <div class="color-spread-right"></div>
+        <div class="color-spread-left"></div>
+    </div>
+    <div class="group-item-container" lwc:if={expense}>
+        <div class="item-button">
+            <button class="material-symbols-outlined" onclick={showDeleteWarningPopup}>delete</button>
+            <button class="material-symbols-outlined" onclick={openEditExpenseForm}>edit</button>
+        </div>
+        <div class="item-details">
+            <div class="wrapper">
+                <div class="item-icon material-symbols-outlined">receipt</div>
+                <div class="item-name">{expense.title}</div>
+                <div class="item-amount">{Currency.India}{expense.amount}</div>
+                <div class="item-timestamp">Added by {expense.createdBy} on {expense.createdDate}</div>
+            </div>
+        </div>
+        <div class="shared-info">
+            <div class="paidby">
+                <picture>
+                    <source srcset={userProPic}>
+                    <img src={defProPic} alt="">
+                </picture>
+                <span>{expense.paidByUserName} paid {Currency.India}{expense.amount}</span>
+            </div>
+            <template if:true={expense.sharedWith}>
+                <template for:each={expense.sharedWith} for:item="user">
+                    <div key={user.id} class="shared-with">{user.name} owes {Currency.India}{user.amount}</div>
+                </template>
+            </template>
+        </div>
+    </div>
+
+    <dialog class="delete-modal">
+        <div class="modal-wrapper">
+            <div class="delete-card">
+                <div class="warning material-symbols-outlined">emergency_home</div>
+                <h1>Delete</h1>
+                <h3>This item will be parmanently deleted!</h3>
+                <div class="button-group">
+                    <button class="cancel" onclick={hideDeleteWarningPopup}>Cancel</button>
+                    <button class="confirm" onclick={deleteExpenseItem}>Confirm</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <!-- ************edit container************** -->
+    <div class="edit-expense-container">
+        <template lwc:if={dollarLoader}>
+            <span class="loader"></span>
+        </template>
+        <div class="edit-expense">
+            <div class="header">
+                <button class="back-btn material-symbols-outlined" onclick={closeEditExpenseForm}>arrow_back</button>
+                <span>Edit Expense</span>
+            </div>
+            <form onsubmit={editExpense} action="">
+            <div class="input-container">
+                <input type="text" name="expensename" value={expenseTitle}  placeholder="Name"  autocomplete="off">
+                
+                <input type="number" name="amount" value={expenseAmount} placeholder="Amount"  autocomplete="off">
+                
+                <select name="paidby" class="select">
+                    <template for:each={groupMembers} for:item="member">
+                        <option key={member.Account__r.Id} value={member.Account__r.Id}>{member.Account__r.Name}</option>
+                    </template>
+                </select>
+                <select name="share" class="select" onchange={handleSharingUsers}>
+                    <option value='Equally'><span>Share Equally</span></option>
+                    <option value='Unequally'><span>Share Unequally</span></option>
+                </select>
+                <template lwc:if={sharedEqually}>
+                    <select name="memberoption" class="select" onchange={handleMemberOption}>
+                        <option value='All'><span>With All Members</span></option>
+                        <option value='Selected'><span>With Selected Members</span></option>
+                    </select>
+                </template>
+                <template lwc:else>
+                    <select name="sharetype" class="select" onchange={handleShareType}>
+                        <option value='Amount'><span>By Amount</span></option>
+                        <option value='Parts'><span>By Parts</span></option>
+                        <option value='Percent'><span>By Percentage</span></option>
+                    </select>
+                </template>
+            </div>
+            <button class="create-expense-btn material-symbols-outlined" type="submit">check</button>
+            </form>
+            <template lwc:if={withSelectedMembers}>
+                <div class="all-users">
+                    <ul>
+                    <template lwc:if={sharedEqually} for:each={combinedUserList} for:item="user">
+                        <li class="user-list-item" key={user.id} onclick={handleSharedWithUser} data-id={user.id} data-name={user.name} data-amount={user.amount}>
+                            <div class="display-picture default-pro-pic">
+                                <picture>
+                                    <source srcset={user.propic}>
+                                    <img src={defProPic} alt="">
+                                </picture>
+                            </div>
+                            <div class="username">{user.name}
+                                <div data-checkeduser={user.id} class="material-symbols-outlined">check</div>
+                            </div>
+                        </li>
+                    </template>
+                    <template lwc:else for:each={combinedUserList} for:item="user">
+                        <li class="user-list-item" key={user.id}>
+                            <div class="display-picture default-pro-pic">
+                                <picture>
+                                    <source srcset={user.propic}>
+                                    <img src={defProPic} alt="">
+                                </picture>
+                            </div>
+                            <div class="username">{user.name}
+                                <div class="indv-input">
+                                    <input type="number" name="indvamount" value={user.amount} onchange={updateAmount} placeholder="0" data-id={user.id} data-name={user.name}>
+                                    <template lwc:if={isAmount}>
+                                        {currencySymbal}
+                                    </template>
+                                    <template lwc:if={isPart}>
+                                        part
+                                    </template>
+                                    <template lwc:if={isPercentage}>
+                                        %
+                                    </template>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                    </ul>
+                </div>
+            </template>
+            
+            <!-- wrong calc error popup -->
+            <dialog class="share-modal">
+                <div class="modal-wrapper">
+                    <div class="warning-card">
+                        <div class="warning material-symbols-outlined">emergency_home</div>
+                        <h3></h3>
+                        <div class="button-group">
+                            <button class="cancel" onclick={closeShareModal}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            </dialog>
+        </div>
+    </div>
+</template>

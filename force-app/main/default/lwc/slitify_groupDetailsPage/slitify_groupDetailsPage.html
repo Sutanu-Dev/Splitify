@@ -1,0 +1,266 @@
+<template>
+    <div class="background">
+        <div class="color-spread-right"></div>
+        <div class="color-spread-left"></div>
+    </div>
+    <c-custom-toast></c-custom-toast>
+    <div class="group-details-container">
+        <div class="group-details">
+            <div class="group-cover">
+                <picture>
+                    <source srcset={groupCover}>
+                    <img src={grpPicNotAvail} alt="">
+                </picture>
+                <div class="button-group">
+                    <button class="material-symbols-outlined" onclick={handleProfilePictureButton}>add_a_photo</button>
+                    <input type="file" accept="image/*" style="display: none;" onchange={uploadProfilePicture} class="file-input"/>
+                    <details class="group-menu">
+                        <summary>
+                            <span class="material-symbols-outlined">settings</span>
+                        </summary>
+                        <ul>
+                            <li><button onclick={copyLinkToClipboard}>Copy Invite Link</button></li>
+                            <li><button onclick={navigateToSettleUpPage}>Settle Up</button></li>
+                            <li><button onclick={navigateToGroupContent}>Album</button></li>
+                            <li><button onclick={handleManageMember}>Remove Member</button></li>
+                            <li><button onclick={handleGroupCurrency}>Change Currency</button></li>
+                            <li><button onclick={handleLeaveGroup}>Leave Group</button></li>
+                            <template lwc:if={ifCreatedByUser}>
+                                <li><button onclick={handleDeleteGroup}>Delete Group</button></li>
+                            </template>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+            <div class="group-name">{group.Name} <button class="material-symbols-outlined" onclick={handleEditGroup}>edit</button> </div>
+        </div>
+        <div class="totals">
+            <div class="group-total">
+                <div class="ammount-title">Group Total</div>
+                <div class="amount">
+                    <span class="currency">{currencySymbal}</span>
+                    <span class="currency">{groupTotal}</span>
+                </div>
+            </div>
+            <div class="user-total">
+                <div class="ammount-title">Your Total</div>
+                <div class="amount">
+                    <span class="currency">{currencySymbal}</span>
+                    <span class="currency">{userTotal}</span>
+                </div>
+            </div>
+        </div>
+        <div class="group-expense-container">
+            <ul class="expense-list">
+                <template lwc:if={groupExpenses} for:each={groupExpenses} for:item="expense" >
+                    <li class="expense-list-item" key={expense.id} onclick={navigateToItemDetailsPage} data-id={expense.id} data-title={expense.title} data-amount={expense.amount}>
+                        <span class="expense-icon material-symbols-outlined">receipt_long</span>
+                        <span class="expense-title">{expense.title}</span>
+                        <span class="expense-amount">{expense.amount}</span>
+                    </li>
+                </template>
+                <template lwc:else>
+                    <div class="message">Group doesn't have any expense yet !</div>
+                </template>
+            </ul>
+        </div>
+    </div>
+    <!-- ********************************** -->
+    <button class="add-expense material-symbols-outlined" onclick={openAddExpenseForm}>add</button>
+    <!-- **************************** -->
+    <dialog class="modal">
+        <div class="modal-wrapper">
+            <template lwc:if={ifLeaveGroup}>
+                <div class="leave-group-card">
+                    <div class="warning material-symbols-outlined">emergency_home</div>
+                    <h1>Leave Group</h1>
+                    <h3>You are going to leave <b>"</b>{group.Name}<b>"</b> group. Are you sure ? </h3>
+                    <div class="button-group">
+                        <button class="cancel" onclick={cancelLeaveGroup}>Cancel</button>
+                        <button class="confirm" onclick={removeUser}>Confirm</button>
+                    </div>
+                </div>
+            </template>
+            <template lwc:if={ifDeleteGroup}>
+                <div class="delete-group-card">
+                    <div class="warning material-symbols-outlined">emergency_home</div>
+                    <h1>Delete Group</h1>
+                    <h3>Group <b>"</b>{group.Name}<b>"</b> will be parmanently deleted. Are you sure ? </h3>
+                    <div class="button-group">
+                        <button class="cancel" onclick={cancelDeleteGroup}>Cancel</button>
+                        <button class="confirm" onclick={deleteGroup}>Confirm</button>
+                    </div>
+                </div>
+            </template>
+            <template lwc:if={ifEditGroup}>
+                <div class="edit-group-card">
+                    <h1>Edit Group</h1>
+                    <input type="text" placeholder="Group name" value={group.Name}>
+                    <div class="error" role="alert"></div>
+                    <div class="button-group">
+                        <button class="cancel" onclick={cancelEditGroup}>Cancel</button>
+                        <button class="confirm" onclick={saveGroupName}>Confirm</button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </dialog>
+<!-- **************************************************** -->
+    <div class="manage-user-container">
+        <div class="manage-user">
+            <div class="header">
+                <button class="back-btn material-symbols-outlined" onclick={closeManageMemberForm}>arrow_back</button>
+                <span>Remove Member</span>
+            </div>
+            <!-- <div class="input-container">
+                <input type="text" placeholder="Search User" value="" onkeyup={searchUser}>
+                <button class="material-symbols-outlined" onclick={clearInput}>cancel</button>
+            </div> -->
+            <!-- <div class="selected-users">
+                <template for:each={selectedUsers} for:item="user">
+                    <div key={user.Account__r.Id} class="user-card">
+                        <div class="image default-pro-pic">
+                            <picture>
+                                <source srcset={user.Account__r.Profile_Picture__c}>
+                                <img src={defProPic} alt="">
+                            </picture>
+                            <button class="close-btn material-symbols-outlined" onclick={removeGroupMember} data-id={user.Account__r.Id}>close</button>
+                        </div>
+                        <p>{user.Account__r.Name}</p>
+                    </div>
+                </template>
+            </div> -->
+            <div class="all-users">
+                <ul>
+                <template for:each={filteredGrpMembers} for:item="member">
+                    <li class="user-list-item" key={member.Account__r.Id} onclick={selectUser} data-id={member.Account__r.Id} data-image={member.Account__r.Profile_Picture__c} data-name={member.Account__r.Name}>
+                        <div class="display-picture default-pro-pic">
+                            <picture>
+                                <source srcset={member.Account__r.Profile_Picture__c}>
+                                <img src={defProPic} alt="">
+                            </picture>
+                        </div>
+                        <div class="username">{member.Account__r.Name}
+                            <div class="material-symbols-outlined">check</div>
+                        </div>
+                    </li>
+                </template>
+                </ul>
+                <button class="manage-member-btn material-symbols-outlined" onclick={syncGroupMembers}>check</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ******************************* -->
+    <div class="create-expense-container">
+        <template lwc:if={dollarLoader}>
+            <span class="loader"></span>
+        </template>
+        <div class="create-expense">
+            <div class="header">
+                <button class="back-btn material-symbols-outlined" onclick={closeAddExpenseForm}>arrow_back</button>
+                <span>Add Expense</span>
+            </div>
+            <form onsubmit={createExpense} action="" class="create-expense-form">
+            <div class="input-container">
+                <input type="text" name="expensename" placeholder="Name"  autocomplete="off">
+                <input type="number" name="amount" placeholder="Amount"  autocomplete="off">
+                <select name="paidby" class="select">
+                    <option value={loggedInUserId}><span>Paid By You</span></option>
+                    <template for:each={groupMembers} for:item="member">
+                        <option key={member.Account__r.Id} value={member.Account__r.Id}>{member.Account__r.Name}</option>
+                    </template>
+                </select>
+                <select name="share" class="select" onchange={handleSharingUsers}>
+                    <option value='Equally'><span>Share Equally</span></option>
+                    <option value='Unequally'><span>Share Unequally</span></option>
+                </select>
+                <template lwc:if={sharedEqually}>
+                    <select name="memberoption" class="select" onchange={handleMemberOption}>
+                        <option value='All'><span>With All Members</span></option>
+                        <option value='Selected'><span>With Selected Members</span></option>
+                    </select>
+                </template>
+                <template lwc:else>
+                    <select name="sharetype" class="select" onchange={handleShareType}>
+                        <option value='Amount'><span>By Amount</span></option>
+                        <option value='Parts'><span>By Parts</span></option>
+                        <option value='Percent'><span>By Percentage</span></option>
+                    </select>
+                </template>
+                <button class="create-expense-btn material-symbols-outlined" type="submit">check</button>
+            </div>
+            </form>
+            <template lwc:if={withSelectedMembers}>
+                <div class="all-users">
+                    <ul>
+                    <template lwc:if={sharedEqually} for:each={groupMembers} for:item="member">
+                        <li class="user-list-item" key={member.Account__r.Id} onclick={handleSharedWithUser} data-id={member.Account__r.Id} data-name={member.Account__r.Name}>
+                            <div class="display-picture default-pro-pic">
+                                <picture>
+                                    <source srcset={member.Account__r.Profile_Picture__c}>
+                                    <img src={defProPic} alt="">
+                                </picture>
+                            </div>
+                            <div class="username">{member.Account__r.Name}
+                                <div data-user-id={member.Account__r.Id} class="material-symbols-outlined">check</div>
+                            </div>
+                        </li>
+                    </template>
+                    <template lwc:else for:each={groupMembers} for:item="member">
+                        <li class="user-list-item" key={member.Account__r.Id}>
+                            <div class="display-picture default-pro-pic">
+                                <picture>
+                                    <source srcset={member.Account__r.Profile_Picture__c}>
+                                    <img src={defProPic} alt="">
+                                </picture>
+                            </div>
+                            <div class="username">{member.Account__r.Name}
+                                <div class="indv-input">
+                                    <input type="number" name="indvamount" placeholder="0" data-id={member.Account__r.Id} data-name={member.Account__r.Name}>
+                                    <template lwc:if={isAmount}>
+                                        {currencySymbal}
+                                    </template>
+                                    <template lwc:if={isPart}>
+                                        part
+                                    </template>
+                                    <template lwc:if={isPercentage}>
+                                        %
+                                    </template>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                    </ul>
+                </div>
+            </template>
+
+            <dialog class="share-modal">
+                <div class="modal-wrapper">
+                    <div class="leave-group-card">
+                        <div class="warning material-symbols-outlined">emergency_home</div>
+                        <h3></h3>
+                        <div class="button-group">
+                            <button class="cancel" onclick={closeShareModal}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            </dialog>
+        </div>
+    </div>
+
+    <dialog class="currency-modal">
+        <div class="modal-wrapper">
+            <div>
+                <span>Currency : </span> 
+                <span>
+                    <select name="currency" title="Currency">
+                        <option value=INR>INR</option>
+                        <option value=USD>USD</option>
+                    </select>
+                </span>
+            </div>
+            <button onclick={changeGroupCurrency}>Done</button>
+        </div>
+    </dialog>
+</template>

@@ -1,0 +1,78 @@
+<template>
+    <div class="user-profile-container"></div>
+    <div class="user-profile">
+        <div class="user-profile-info">
+            <div class="user-profile-picture">
+                <button class="material-symbols-outlined" onclick={handleProfilePictureButton}>add_a_photo</button>
+                <input type="file" accept="image/*" style="display: none;" onchange={uploadProfilePicture} class="file-input"/>
+                <div class="profile-picture"><img src={profilePicture} alt=""></div>
+            </div>
+            <template lwc:if={userDetails}>
+                <div class="user-name">{user.Name}</div>
+                <div class="user-email">
+                    <span class="email-icon material-symbols-outlined">mail</span>
+                    <span class="email">{user.Email__c}</span>
+                </div>
+                <div class="country-phone">
+                    <div class="user-country">
+                        <span class="country-icon material-symbols-outlined">location_on</span>
+                        <span class="country-name">{user.BillingCountry}</span>
+                    </div>
+                    <div class="separator">|</div>
+                    <div class="user-phone">
+                        <span class="phone-icon material-symbols-outlined">phone_iphone</span>
+                        <span class="phone">{userPhone}</span>
+                    </div>
+                </div>
+                <div class="upi">
+                    <span class="material-symbols-outlined">upi_pay</span>
+                    <span>{userUPI}</span>
+                </div>
+            </template>
+            
+            <form onsubmit={updateUserDetails} action="" lwc:else>
+                <div class="user-name">
+                    <input type="text" placeholder="Name" value={user.Name} name="username">
+                </div>
+                <div class="user-country">
+                    <input type="text" placeholder="Country" value={user.BillingCountry} name="country">
+                </div>
+                <div class="user-email">
+                    <input type="text" placeholder="Email" value={user.Email__c} name="email" >
+                </div>
+                <div class="user-phone">
+                    <input type="text" placeholder="Phone" value={formPhone} name="phone" >
+                </div>
+                <div class="user-upi">
+                    <input type="text" name="upi" placeholder="Upi Id" value={formUPI}>
+                </div>
+                <div class="form-buttons">
+                    <button class="cancel-btn material-symbols-outlined" onclick={hideUserEditForm}>close</button>
+                    <button class="submit-btn material-symbols-outlined" type="submit">check</button>
+                </div>
+            </form>
+        </div>
+        <div class="change-password">
+            <button onclick={handleChangePasswordButton}><span class="material-symbols-outlined">lock</span>Change Password</button>
+        </div>
+        <div class="sign-out">
+            <button onclick={showSignOutModal}><span class="material-symbols-outlined">exit_to_app</span>Sign Out</button>
+        </div>
+    </div>
+
+    <!-- sign out modal  -->
+    <dialog class="modal">
+        <div class="modal-wrapper">
+            <div class="sign-out-card">
+                <div class="warning material-symbols-outlined">logout</div>
+                <h1>Sign Out</h1>
+                <h3>Are you sure you want to sign out ?</h3>
+                <div class="button-group">
+                    <button class="cancel" onclick={hideSignOutModal}>Cancel</button>
+                    <button class="confirm" onclick={navigateToLoginPage}>Confirm</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+     
+</template>

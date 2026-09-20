@@ -1,0 +1,53 @@
+<template>
+<div class="tabs">
+    <button class="photo-tab" onclick={showPhotoTab}>Photo</button>
+    <button class="video-tab" onclick={showVideoTab}>Video</button>
+</div>
+<template lwc:if={isLoading}>
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+</template>
+    <template lwc:if={videoTab}>
+    <div class="video-grid">
+        <template for:each={videos} for:item="video">
+        <div key={video.videoId} class="video-card">
+            <iframe
+            width="100%"
+            height="200"
+            src={video.embedUrl}
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            title={video.title}>
+            </iframe>
+        </div>
+        </template>
+    </div>
+    <template lwc:if={showNoVideoMessage}>
+        <div class="error-message">This group doesn't have any videos.</div>
+    </template>
+    </template>
+
+    <template lwc:if={photoTab}>
+        <template lwc:if={photosAvailable}>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem; padding-right: 0.7rem; max-width: 50rem; margin-inline: auto;">
+                <button onclick={changeGalleryView}>Change View</button>
+            </div>
+        </template>
+        <div class="gallery">
+            <template for:each={photos} for:item="photoUrl">
+                <img key={photoUrl} src={photoUrl} alt="Facebook Photo" loading="lazy" width="300" onclick={showImage}/>
+            </template>
+        </div>
+        <template lwc:if={showNoPhotosMessage}>
+            <div class="error-message">No Album found!</div>
+        </template>
+    </template>
+    <template lwc:if={showPhotoViewer}>
+        <dialog class="photo-viewer">
+            <button class="material-symbols-outlined" onclick={closePhotoViewer}>close</button>
+            <img src={currentImage} alt="">
+        </dialog>
+    </template>
+</template>

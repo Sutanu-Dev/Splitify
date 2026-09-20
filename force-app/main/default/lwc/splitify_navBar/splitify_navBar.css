@@ -1,0 +1,283 @@
+.button-section {
+    display: flex;
+    max-width: 50rem;
+    margin-inline: auto;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    margin-left: auto;
+}
+
+/* nav bar style*/
+.nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 50rem;
+    margin-inline: auto;
+    position: relative;
+    z-index: 10;
+}
+
+.create-group-btn {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    border-radius: 25px;
+    padding-inline: 1.4rem;
+    padding-block: 0.3rem;
+    outline: none;
+    border: none;
+    background-image: linear-gradient(to right, #be9ff2 20%, #ffbef8 100%);
+    box-shadow: 3px 3px 10px -3px #9432b6;
+    transition: 0.2s;
+    margin-left: auto;
+    height: 2.7rem;
+}
+
+.btn-section {
+    flex-grow: 1;
+}
+
+.profile-picture {
+    height: 3.2rem;
+    width: 3.2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    outline: 3px solid darkgrey;
+    border: 3px solid transparent;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.menuItems {
+    height: 99vh;
+    width: 13rem;
+    background: white;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: .15rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 0 10px -1px;
+    border-radius: 0 10px 10px 0;
+    translate: -102%;
+    transition: 0.3s linear;
+}
+
+.close-menu-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+
+    span {
+        text-align: end;
+        font-size: xx-large;
+        box-shadow: 0 0 5px -2px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+}
+
+.in-animation {
+    translate: 0%;
+
+}
+
+.out-animation {
+    translate: -102%;
+}
+
+.menuItems ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.menuItems li {
+    padding: .5rem;
+    border-radius: 10px;
+ }
+
+.menu-item-background {
+    background: #c4c4c4;
+}
+
+.menuItems li a {
+    display: flex;
+    gap: 1rem;
+    text-decoration: none;
+    color: black;
+}
+
+details {
+    position: relative;
+}
+
+@supports (selector(::details-content)) {
+    details::details-content {
+        opacity: 0;
+        transition: all 0.5s ;
+        transform-origin: top;
+        transform: scaleY(0);
+        position: relative;
+        top: 0rem;
+
+    }
+    
+    details[open]::details-content {
+        opacity: 1;
+        transform: scaleY(1);
+        top: -3.5rem;
+    }
+}
+
+summary {
+    list-style: none;
+}
+
+details summary::-webkit-details-marker {
+    display: none !important;
+}
+
+details ul {
+    position: absolute;
+    z-index: 2;
+    box-shadow: 0 0 5px 0;
+    right: 1rem;
+    top: 4rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    min-width: 10rem;
+}
+
+details ul li {
+    
+    border-bottom: 1px solid;
+    background: white;
+}
+
+details ul li button {
+    width: 100%;
+    background: none;
+    border: none;
+    height: 3.7rem;
+}
+
+details ul li:first-child {
+    padding: 1rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+details ul li:first-child div:last-child {
+    font-size: x-small;
+}
+
+details ul li:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* details ul li:nth-child(2), details ul li:last-child {
+    cursor: pointer;
+} */
+
+/* *************modal************** */
+
+.modal {
+    transition-duration: 0.3s;
+    border: none;
+    outline: none;
+    box-shadow: 0px 4px 12px -2px;
+    border-radius: 20px;
+    overflow: hidden;
+    width: min(70%, 20rem);
+    height: max-content;
+}
+
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.modal-wrapper {
+    height: 100%;
+    padding-block: 0.5rem;
+}
+
+.modal-wrapper .warning {
+    color: red;
+    background: #ffe1e1;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+.sign-out-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper h1,.modal-wrapper h3 {
+    text-align: center;
+}
+
+.modal-wrapper h1 {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.modal-wrapper h3 {
+    font-weight: lighter;
+}
+
+.modal-wrapper .button-group {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.modal-wrapper .button-group button {
+    border: none;
+    flex-grow: 1;
+    border-radius: 20px;
+    height: 2.5rem;
+}
+
+.modal-wrapper .button-group .confirm {
+    background: #f4a9a9;
+}
+
+
+/* ******************** animation ********************* */
+
+button:active {
+    animation: scale-down-effect 0.3s;
+}
+
+@keyframes scale-down-effect {
+    0% {
+        transform: scale(0.8);
+    }
+}

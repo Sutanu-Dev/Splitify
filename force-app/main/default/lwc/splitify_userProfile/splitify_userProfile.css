@@ -1,0 +1,260 @@
+.user-profile-container {
+    position: fixed;
+    z-index: -1;
+    height: 50%;
+    width: 93%;
+    background: radial-gradient(circle at 50% 50%, rgb(197 127 230), rgb(116 224 218 / 66%));
+    filter: blur(100px);
+}
+
+.user-profile {
+    max-width: 50rem;
+    margin-inline: auto;
+    display: flex;
+    gap: 0.5rem;
+    padding-inline: 0.8rem;
+    flex-direction: column;
+    margin-top: 2.5rem;
+}
+
+.user-profile-info {
+    background: white;
+    border-radius: 10px;
+    padding-inline: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding-block: 3.5rem 1.5rem;
+}
+
+.user-profile-info form {
+    padding-inline: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.user-profile-picture {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+}
+
+.profile-picture {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    border: 5px solid white;
+    position: relative;
+    box-sizing: content-box;
+    box-shadow: 0 0 8px 0px;
+    overflow: hidden;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.user-profile-picture button {
+    border: none;
+    position: absolute;
+    z-index: 1;
+    background: #ffffff00;;
+    border-radius: 10px;
+    font-size: larger;
+    padding-block: 0.2em;
+    right: -11%;
+    bottom: 10%;
+    backdrop-filter: blur(1.5px);
+    box-shadow: 0 0 5px 0;
+}
+
+.user-name {
+    text-align: center;
+    font-size: x-large;
+    font-family: serif;
+}
+
+.country-phone {
+    display: flex;
+    gap: 1rem;
+}
+
+.country-phone .user-country {
+ flex-grow: 1;
+ justify-content: right;
+}
+
+.country-phone .user-phone {
+    flex-grow: 1;
+    justify-content: left;
+}
+
+.user-country,.user-email,.user-phone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.upi {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.user-name input,
+.user-country input,
+.user-email input,
+.user-phone input,
+.user-upi input{
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid;
+    height: 1.5rem;
+    width: 15rem;
+    outline: none;
+}
+
+.change-password button {
+    width: 100%;
+    height: 3rem;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+}
+
+.sign-out button {
+    width: 100%;
+    height: 3rem;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+}
+
+.form-buttons {
+    position: absolute;
+    top: -37%;
+    right: -1%;
+    display: flex;
+    gap: 1rem;
+}
+
+.form-buttons button {
+    border-radius: 50%;
+    aspect-ratio: 1;
+    border: none;
+    background: linear-gradient(45deg, #49f3c7d1 40%, #39bdf9b5);
+    box-shadow: 0 0 5px -2px;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-buttons .cancel-btn {
+    color: grey;
+}
+
+.form-buttons button:first-child {
+    background: #fafafae0;
+}
+
+/* *************modal************** */
+
+.modal {
+    transition-duration: 0.3s;
+    border: none;
+    outline: none;
+    box-shadow: 0px 4px 12px -2px;
+    border-radius: 20px;
+    overflow: hidden;
+    width: min(70%, 20rem);
+    /* height: max-content; */
+    min-height: 10rem;
+}
+
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.modal-wrapper {
+    /* height: 100%; */
+    padding-block: 0.5rem;
+}
+
+.modal-wrapper .warning {
+    color: red;
+    background: #ffe1e1;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+.sign-out-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper h1,.modal-wrapper h3 {
+    text-align: center;
+}
+
+.modal-wrapper h1 {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.modal-wrapper h3 {
+    font-weight: lighter;
+}
+
+.modal-wrapper .button-group {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.modal-wrapper .button-group button {
+    border: none;
+    flex-grow: 1;
+    border-radius: 20px;
+    height: 2.5rem;
+}
+
+.modal-wrapper .button-group .confirm {
+    background: #f4a9a9;
+}
+
+/* **************** Animation ******************** */
+
+button:active{
+    animation: scale-down-effect 0.3s ease;
+}
+
+button:focus-visible {
+    outline: 2px solid blueviolet;
+}
+
+@keyframes scale-down-effect {
+    0% {
+        transform: scale(0.8);
+    }
+}

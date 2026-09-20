@@ -1,0 +1,329 @@
+.background {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #f6f6f6;
+    z-index: -11;
+}
+
+.color-spread-right {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(50%, 0%);
+    width: 550px;
+    height: 800px;
+    border-radius: 50% 22% 40% 80%;
+    filter: blur(100px);
+    background: radial-gradient(circle at 50% 50%, rgba(76, 0, 255, 1), rgba(76, 0, 255, 0));
+    opacity: 0.2;
+}
+
+.color-spread-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 800px;
+    border-radius: 50% 22% 40% 80%;
+    filter: blur(100px);
+    background: radial-gradient(circle at 50% 50%, rgba(76, 0, 255, 1), rgba(76, 0, 255, 0));
+    opacity: 0.2;
+}
+
+.settlement-container {
+    max-width: 50rem;
+    margin-inline: auto;
+    font-size: .8em;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.settlement-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.settlement-header button {
+    margin-right: 1rem;
+    background: none;
+    border-radius: 5px;
+    border: 1px solid grey;
+    transition: 1s;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.personal-info,
+.all-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    border-radius: 15px;
+}
+
+.settle-up-wrapper,
+.paid-up-wrapper,
+.personal-info {
+    position: relative;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.settle-up-wrapper{
+    border-top: 1px solid grey;
+}
+.paid-up-wrapper{
+    border-top: 1px solid #2ba32b;
+}
+.personal-info{
+    border-top: 1px solid rgb(56, 56, 217);
+}
+
+
+.no-personal-record-message,
+.no-paid-record-message {
+    text-align: center;
+    font-style: italic;
+    background: #ffffff61;
+    backdrop-filter: blur(100px);
+    border-radius: 5px;
+    padding: 1rem;
+    outline: 1px solid #e2e2e2;
+}
+
+.settle-up-card,
+.paid-up-card,
+.personal-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #ffffff61;
+    backdrop-filter: blur(100px);
+    border-radius: 15px;
+    padding: 0.5rem;
+    padding-right: 1rem;
+    outline: 1px solid #e2e2e2;
+    min-height: 3.4rem;
+}
+
+.settle-up-card .material-symbols-outlined,
+.paid-up-card .material-symbols-outlined {
+    color: green;
+}
+
+.settle-up-card .details,
+.paid-up-card .details {
+    flex-grow: 1;
+}
+
+.propic {
+    width: 2.5rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.personal-card .propic img {
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+}
+
+.settle-up-wrapper::before,
+.paid-up-wrapper::before,
+.personal-info::before {
+    content : '';
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding-inline: 0.5rem;
+}
+
+.settle-up-wrapper::before {
+    content: 'Pending Transection';
+}
+
+.personal-info::before {
+    border-color: rgb(56, 56, 217);
+    content: 'My Transection';
+}
+
+.paid-up-wrapper::before {
+    border-color: #2ba32b;
+    content: 'Paid Transection';
+}
+
+
+/* ***********modal********** */
+
+.modal {
+    transition-duration: 0.3s;
+    border: none;
+    outline: none;
+    box-shadow: 0px 4px 12px -2px;
+    border-radius: 20px;
+    overflow: hidden;
+    width: min(70%, 20rem);
+    /* height: max-content; */
+    min-height: 10rem;
+    font-size: larger;
+    letter-spacing: 0.5px;
+    z-index: 10;
+}
+
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.modal-wrapper {
+    /* height: 100%; */
+    padding-block: 0.5rem;
+}
+
+.modal-wrapper .warning {
+    color: green;
+    background: #d2ffd2;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+.pay-tran-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper h1,.modal-wrapper h3 {
+    text-align: center;
+}
+
+.modal-wrapper h1 {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.modal-wrapper h3 {
+    font-weight: lighter;
+}
+
+.modal-wrapper .button-group {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.modal-wrapper .button-group button {
+    border: none;
+    flex-grow: 1;
+    border-radius: 20px;
+    height: 2.5rem;
+}
+
+.modal-wrapper .button-group button {
+    background: lightgrey;
+}
+
+.modal-wrapper .button-group .confirm {
+    background: #adf0b7;
+}
+
+.settle-up-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.settle-up-message div {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.settle-up-message div span {
+    color: lightseagreen;
+    font-size: xxx-large;
+}
+
+/* **************************************** */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(farthest-side, #c48ce694 94%, #0000) top / 8px 8px no-repeat, conic-gradient(#0000 30%, #b945ffcc);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation: l13 1s infinite linear;
+  }
+  @keyframes l13{ 
+    100%{transform: rotate(1turn)}
+  }
+
+/* dollar loader */
+
+.doller-loader {
+    transform: translateZ(1px);
+    background: #0000004f;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  .doller-loader:after {
+    content: '$';
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    text-align: center;
+    line-height:40px;
+    font-size: 32px;
+    font-weight: bold;
+    background: #FFD700;
+    color: #DAA520;
+    border: 4px double ;
+    box-sizing: border-box;
+    box-shadow:  2px 2px 2px 1px rgba(0, 0, 0, .1);
+    animation: coin-flip 4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+  @keyframes coin-flip {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
+    }
+}
